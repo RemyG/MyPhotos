@@ -1,0 +1,163 @@
+@charset "UTF-8";
+* {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */ }
+
+input[type=text], input[type=date], input[type=password] {
+  -webkit-box-sizing: padding-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: padding-box;
+  /* Firefox, other Gecko */
+  box-sizing: padding-box;
+  line-height: 18px;
+  height: 24px;
+  margin-right: 5px; }
+
+/* CSS Styles */
+* {
+  font-family: 'Asap',Arial,​Helvetica,​sans-serif; }
+
+body {
+  padding-bottom: 30px; }
+
+div.album-thumbnail,
+div.picture-thumbnail {
+  position: relative;
+  float: left;
+  margin-right: 1%;
+  margin-bottom: 1%; }
+  div.album-thumbnail div.description,
+  div.picture-thumbnail div.description {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+    max-height: 50%;
+    background-color: #fff;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px; }
+  div.album-thumbnail:hover div.description,
+  div.picture-thumbnail:hover div.description {
+    visibility: visible;
+    opacity: 0.8; }
+  div.album-thumbnail div.picture,
+  div.picture-thumbnail div.picture {
+    position: relative;
+    overflow: hidden; }
+    div.album-thumbnail div.picture.cover:before,
+    div.picture-thumbnail div.picture.cover:before {
+      width: 0;
+      height: 0;
+      border-bottom: 25px solid transparent;
+      border-right: 25px solid transparent;
+      border-top: 25px solid green;
+      position: absolute;
+      content: "";
+      top: 0px;
+      left: 0px;
+      z-index: 2; }
+    div.album-thumbnail div.picture img,
+    div.picture-thumbnail div.picture img {
+      position: relative; }
+    div.album-thumbnail div.picture a.rotate-btn,
+    div.picture-thumbnail div.picture a.rotate-btn {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0; }
+      div.album-thumbnail div.picture a.rotate-btn i,
+      div.picture-thumbnail div.picture a.rotate-btn i {
+        visibility: hidden;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 30%;
+        width: 50%;
+        margin: -15% 0 0 -12.5%; }
+      div.album-thumbnail div.picture a.rotate-btn.rotate-left,
+      div.picture-thumbnail div.picture a.rotate-btn.rotate-left {
+        left: 0;
+        right: 50%; }
+      div.album-thumbnail div.picture a.rotate-btn.rotate-right,
+      div.picture-thumbnail div.picture a.rotate-btn.rotate-right {
+        left: 50%;
+        right: 0; }
+      div.album-thumbnail div.picture a.rotate-btn:hover,
+      div.picture-thumbnail div.picture a.rotate-btn:hover {
+        background: #fff;
+        opacity: 0.8; }
+        div.album-thumbnail div.picture a.rotate-btn:hover i,
+        div.picture-thumbnail div.picture a.rotate-btn:hover i {
+          opacity: 1;
+          color: #000;
+          visibility: visible; }
+
+@media screen and (max-width: 399px) {
+  div.picture-thumbnail {
+    max-width: 100%;
+    margin-right: 0; }
+
+  div.album-thumbnail {
+    max-width: 100%;
+    margin-right: 0; } }
+@media screen and (min-width: 400px) and (max-width: 767px) {
+  div.picture-thumbnail {
+    max-width: 49%; }
+    div.picture-thumbnail:nth-child(2n) {
+      margin-right: 0; }
+
+  div.album-thumbnail {
+    max-width: 49%; }
+    div.album-thumbnail:nth-child(2n) {
+      margin-right: 0; } }
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  div.picture-thumbnail {
+    max-width: 32%; }
+    div.picture-thumbnail:nth-child(3n) {
+      margin-right: 0; }
+
+  div.album-thumbnail {
+    max-width: 32%; }
+    div.album-thumbnail:nth-child(3n) {
+      margin-right: 0; } }
+@media screen and (min-width: 1200px) {
+  div.picture-thumbnail {
+    max-width: 24%; }
+    div.picture-thumbnail:nth-child(4n) {
+      margin-right: 0; }
+
+  div.album-thumbnail {
+    max-width: 32%; }
+    div.album-thumbnail:nth-child(3n) {
+      margin-right: 0; } }
+div.clear {
+  clear: both; }
+
+div.thumbnail > a {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+div.thumbnail h4 {
+  text-align: center; }
+
+div.thumbnail p {
+  text-align: center; }
+
+div.thumbnail div.controls > input[type=text] {
+  width: 90%; }
+
+header > h2 {
+  font-size: 1.6em; }
+
+div.album-date {
+  margin-bottom: 25px; }
+
+aside > h2 {
+  font-size: 1.2em; }
