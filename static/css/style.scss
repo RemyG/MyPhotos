@@ -64,6 +64,25 @@ div.picture-thumbnail {
 		img {
 			position: relative;
 		}
+		div.spinner {
+			display: none;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			opacity: 0.8;
+			z-index: 2;
+			background: #fff;
+			i {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: -6.25% 0 0 -6.25%;
+				opacity: 1;
+				color: #000;
+			}
+		}
 		a.rotate-btn {
 			display: block;
 			position: absolute;
@@ -72,11 +91,11 @@ div.picture-thumbnail {
 			i {
 				visibility: hidden;
 				position: absolute;
-			    top: 50%;
-			    left: 50%;
-			    height: 30%;
-			    width: 50%;
-			    margin: -15% 0 0 -12.5%;
+				top: 50%;
+				left: 50%;
+				height: 30%;
+				width: 50%;
+				margin: -15% 0 0 -12.5%;
 
 			}
 			&.rotate-left {

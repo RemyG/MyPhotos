@@ -18,36 +18,39 @@
 
 		echo '
 			<div class="picture-thumbnail">
-				<a href="'.BASE_URL.PICTURE_PATH.$picture->url.'" rel="prettyPhoto[pp_gal]" title="'.$picture->id.'">
 				<div class="picture'.$isCover.'">
-					<img src="'.BASE_URL.PICTURE_PATH.THUMB_DIR.$picture->url.'" alt="'.$picture->desc.'" id="thumb-'.$picture->id.'">
+					<a href="'.BASE_URL.PICTURE_PATH.$picture->url.'" rel="prettyPhoto[pp_gal]" title="'.$picture->id.'">
+						<img src="'.BASE_URL.PICTURE_PATH.THUMB_DIR.$picture->url.'" alt="'.$picture->desc.'" id="thumb-'.$picture->id.'">
+					</a>
 					';
 		if ($isUserAdmin) {
-			echo '<a class="rotate-btn rotate-left" data-id="'.$picture->id.'"><i class="fa fa-rotate-left fa-2x"></i></a>
-						<a class="rotate-btn rotate-right" data-id="'.$picture->id.'"><i class="fa fa-rotate-right fa-2x"></i></a>';
+			echo '
+					<div id="spinner-'.$picture->id.'" class="spinner"><i class="fa fa-spin fa-spinner fa-2x"></i></div>
+					<a class="rotate-btn rotate-left" data-id="'.$picture->id.'"><i class="fa fa-rotate-left fa-2x"></i></a>
+					<a class="rotate-btn rotate-right" data-id="'.$picture->id.'"><i class="fa fa-rotate-right fa-2x"></i></a>';
 		}
 
 		echo '
-			</div>
+				</div>
 				'.(!$isUserAdmin && $picture->desc != null && $picture->desc != '' ? '<div class="description">'.$picture->desc.'</div>' : '').'
-				</a>';
+				';
 
 
 		if($isUserAdmin) {
 			echo '
-			<div class="show_picture_admin">
-				<div class="control-group">
-					<div class="controls">
-						<input type="text" name="desc_'.$picture->id.'" value="'.$picture->desc.'" id="desc_'.$picture->id.'" maxlength="200" />
+				<div class="show_picture_admin">
+					<div class="control-group">
+						<div class="controls">
+							<input type="text" name="desc_'.$picture->id.'" value="'.$picture->desc.'" id="desc_'.$picture->id.'" maxlength="200" />
+						</div>
 					</div>
-				</div>
-				<div class="control-group">
-					<div class="controls">
-						<a class="delete btn" data-id="'.$picture->id.'"><i class="fa fa-trash-o"></i></a>
-						<a class="make-cover btn" data-id="'.$picture->id.'"><i class="fa fa-dot-circle-o"></i></a>
+					<div class="control-group">
+						<div class="controls">
+							<a class="delete btn" data-id="'.$picture->id.'" title="Delete picture"><i class="fa fa-trash-o"></i></a>
+							<a class="make-cover btn" data-id="'.$picture->id.'" title="Sec picture as album cover"><i class="fa fa-dot-circle-o"></i></a>
+						</div>
 					</div>
-				</div>
-			</div>';
+				</div>';
 		}
 		echo '
 			</div>';
@@ -62,7 +65,7 @@
 	if($isUserAdmin) {
 		echo '
 		<div class="clear">
-			<input type="submit" name="saveChanges" onClick="return confirmSubmitChanges()"/>
+			<input type="submit" name="saveChanges"/>
 		</div>';
 	}
 	?>
@@ -73,35 +76,28 @@
 
 <script>
 <!--
-function confirmSubmitChanges() {
-	var count = $("[type='checkbox']:checked").length;
-	if(count > 0) {
-		var agree=confirm("Are you sure you want to delete " + count + " pictures?");
-		if (agree)
-			return true ;
-		else
-			return false ;
-	}
-	return true;
-}
 
 $("a.rotate-left").click(function() {
 	var picId = $(this).attr("data-id");
+	showSpinner(picId);
 	$.ajax({
 		type: "GET",
 		url: "/album/rotateLeft/" + picId
 	}).done(function( msg ) {
 		$("#thumb-"+picId).attr("src", "<?php echo BASE_URL.PICTURE_PATH.THUMB_DIR; ?>" + msg);
+		hideSpinner(picId);
 	});
 });
 
 $("a.rotate-right").click(function() {
 	var picId = $(this).attr("data-id");
+	showSpinner(picId);
 	$.ajax({
 		type: "GET",
 		url: "/album/rotateRight/" + picId
 	}).done(function( msg ) {
 		$("#thumb-"+picId).attr("src", "<?php echo BASE_URL.PICTURE_PATH.THUMB_DIR; ?>" + msg);
+		hideSpinner(picId);
 	});
 });
 
@@ -131,6 +127,14 @@ $("a.make-cover").click(function() {
 		$("#thumb-"+picId).parents("div.picture").addClass("cover");
 	});
 });
+
+function showSpinner(picId) {
+	$("#spinner-"+picId).show();
+}
+
+function hideSpinner(picId) {
+	$("#spinner-"+picId).hide();
+}
 
 //-->
 </script>

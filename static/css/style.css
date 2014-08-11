@@ -64,6 +64,25 @@ div.picture-thumbnail {
     div.album-thumbnail div.picture img,
     div.picture-thumbnail div.picture img {
       position: relative; }
+    div.album-thumbnail div.picture div.spinner,
+    div.picture-thumbnail div.picture div.spinner {
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0.8;
+      z-index: 2;
+      background: #fff; }
+      div.album-thumbnail div.picture div.spinner i,
+      div.picture-thumbnail div.picture div.spinner i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -6.25% 0 0 -6.25%;
+        opacity: 1;
+        color: #000; }
     div.album-thumbnail div.picture a.rotate-btn,
     div.picture-thumbnail div.picture a.rotate-btn {
       display: block;
