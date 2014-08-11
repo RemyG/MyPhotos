@@ -211,20 +211,7 @@ class Album extends Controller {
 			$this->redirect('error/401');
 		}
 
-		$pictureModel = $this->loadModel('Picture_model');
-		$this->loadPlugin('image_plugin');
-
-		$picture = $pictureModel->getPictureById($picId);
-		$dest = rotateAndSaveImage($picture->url, false);
-		createThumbnail($dest, $picture->url);
-		if($picture->cover == 1)
-		{
-			createAlbumCover($dest, $picture->url);
-		}
-		$picture->url = $dest;
-		$pictureModel->updatePicture($picture);
-
-		return $dest;
+		return $this->rotate($picId, false);
 	}
 
 	/**
@@ -236,20 +223,23 @@ class Album extends Controller {
 			$this->redirect('error/401');
 		}
 
+		return $this->rotate($picId, true);
+	}
+
+	function rotate($picId, $rotateRight)
+	{
 		$pictureModel = $this->loadModel('Picture_model');
 		$this->loadPlugin('image_plugin');
 
 		$picture = $pictureModel->getPictureById($picId);
-		$dest = rotateAndSaveImage($picture->url, true);
-		createThumbnail($dest, $picture->url);
+		rotateAndSaveImage($picture->url, $rotateRight);
+		createThumbnail($picture->url);
 		if($picture->cover == 1)
 		{
-			createAlbumCover($dest, $picture->url);
+			createAlbumCover($picture->url);
 		}
-		$picture->url = $dest;
-		$pictureModel->updatePicture($picture);
 
-		return $dest;
+		return $picture->url."?v=".time();
 	}
 
 	/**
