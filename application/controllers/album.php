@@ -127,6 +127,7 @@ class Album extends Controller {
 				{
 					if(move_uploaded_file($tmp, PICTURE_PATH.$alb_id."/".$name))
 					{
+						copy(PICTURE_PATH.$alb_id."/".$name, PICTURE_PATH.$alb_id."/orig-".$name);
 						createThumbnail($alb_id."/".$name);
 						$picture = new PictureDTO(null, $alb_id."/" .$name, $alb_id, 0, "");
 						$pictureModel->insertPicture($picture);
@@ -273,9 +274,14 @@ class Album extends Controller {
 			}
 			else if (is_int($result) && $result == 1)
 			{
-				if(file_exists(PICTURE_PATH.$picture->url))
-				{
+				if (file_exists(PICTURE_PATH.$picture->url)) {
 					unlink(PICTURE_PATH.$picture->url);
+				}
+				if (file_exists(PICTURE_PATH.COVER_DIR.$picture->url)) {
+					unlink(PICTURE_PATH.COVER_DIR.$picture->url);
+				}
+				if (file_exists(PICTURE_PATH.THUMB_DIR.$picture->url)) {
+					unlink(PICTURE_PATH.THUMB_DIR.$picture->url);
 				}
 				$jsonResult['success'] = "Image deleted";
 			}
@@ -337,6 +343,54 @@ class Album extends Controller {
 		{
 			$error_messages[] = "Unknown error while setting cover to album # ".$albId;
 		}
+	}
+
+	function restoreOriginalImage($picId)
+	{
+		if(!$this->isUserAdmin()) {
+			$this->redirect('error/401');
+		}
+
+		$pictureModel = $this->loadModel('Picture_model');
+		$this->loadPlugin('image_plugin');
+
+		$jsonResult = array();
+
+		$picture = $pictureModel->getPictureById($picId);
+
+		if(is_array($picture))
+		{
+			$jsonResult['error'] = "Error while getting image # ".$picId." - ".$result[0]." - ".$result[1];
+		}
+		else if(is_a($picture, 'PictureDTO'))
+		{
+			$currentFile = PICTURE_PATH.$picture->url;
+			$fileAsArray = array();
+			preg_match('/(.*\/)(.*)/', $currentFile, $fileAsArray);
+			if (sizeof($fileAsArray) == 3) {
+				$originalFile = $fileAsArray[1]."orig-".$fileAsArray[2];
+				if (file_exists($originalFile)) {
+					copy($originalFile, $currentFile);
+					createThumbnail($picture->url);
+					if($picture->cover == 1) {
+						createAlbumCover($picture->url);
+					}
+					$jsonResult['success'] = $picture->url."?v=".time();
+				}
+				else {
+					$jsonResult['error'] = "Original file (".$originalFile.") not found.";
+				}
+			}
+			else {
+				$jsonResult['error'] = "File name doesn't match.";
+			}
+		}
+		else
+		{
+			$jsonResult['error'] = "Unknown error while setting cover to album # ".$albId;
+		}
+
+		return json_encode($jsonResult);
 	}
 
 }

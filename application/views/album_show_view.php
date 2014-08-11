@@ -48,6 +48,7 @@
 						<div class="controls">
 							<a class="delete btn" data-id="'.$picture->id.'" title="Delete picture"><i class="fa fa-trash-o"></i></a>
 							<a class="make-cover btn" data-id="'.$picture->id.'" title="Sec picture as album cover"><i class="fa fa-dot-circle-o"></i></a>
+							<a class="use-original btn" data-id="'.$picture->id.'" title="Revert image to original"><i class="fa fa-reply"></i></a>
 						</div>
 					</div>
 				</div>';
@@ -125,6 +126,24 @@ $("a.make-cover").click(function() {
 	}).done(function( msg ) {
 		$("div.picture").removeClass("cover");
 		$("#thumb-"+picId).parents("div.picture").addClass("cover");
+	});
+});
+
+$("a.use-original").click(function() {
+	var picId = $(this).attr("data-id");
+	showSpinner(picId);
+	$.ajax({
+		type: "GET",
+		url: "/album/restoreOriginalImage/" + picId,
+		dataType: "json"
+	}).done(function(data) {
+		if (data.error != null) {
+			alert(data.error);
+		}
+		else if (data.success != null) {
+			$("#thumb-"+picId).attr("src", "<?php echo BASE_URL.PICTURE_PATH.THUMB_DIR; ?>" + data.success);
+		}
+		hideSpinner(picId);
 	});
 });
 
