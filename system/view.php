@@ -21,11 +21,11 @@ class View {
 
 		ob_start();
 		include APP_DIR.'views/header.php';
-		require($this->template);		
+		require($this->template);
 		echo ob_get_clean();
 		include APP_DIR.'views/footer.php';
 	}
-    
+
 }
 
 ?>
