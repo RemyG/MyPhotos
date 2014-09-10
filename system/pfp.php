@@ -31,8 +31,8 @@ function pfp()
 		require_once(APP_DIR . 'controllers/' . $controller . '.php');
 	}
 
-	if ($controller == 'error' && preg_match("/^\d{3}$/", $action)) {
-		$action = "error_" + $action;
+	if ($controller == ERROR_CONTROLLER && preg_match("/^\d{3}$/", $action)) {
+		$action = "error_".$action;
 	}
 
 	// Check the action exists
