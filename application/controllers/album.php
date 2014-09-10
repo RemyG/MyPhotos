@@ -72,7 +72,7 @@ class Album extends Controller {
 
 			foreach($_POST as $key=>$value)
 			{
-				if(startsWith($key, 'desc_'))
+				if(preg_match("desc_", $key))
 				{
 					$pic_id = explode("_", $key);
 					$pic_id = $pic_id[1];
